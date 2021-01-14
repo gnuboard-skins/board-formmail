@@ -21,7 +21,7 @@ foreach ($contents_info as $k=>$v) {
 }
 $new_contents.= '</tbody></table>';
 
-$_POST['wr_content'] = $new_contents;
+$wr_content = $new_contents;
 
 
 

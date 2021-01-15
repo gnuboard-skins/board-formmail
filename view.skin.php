@@ -6,15 +6,12 @@ include_once(G5_LIB_PATH.'/thumbnail.lib.php');
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
 ?>
 
-<script src="<?php echo G5_JS_URL; ?>/viewimageresize.js"></script>
-
 <!-- 게시물 읽기 시작 { -->
-
 <article id="bo_v" style="width:<?php echo $width; ?>">
     <header>
         <h2 id="bo_v_title">
             <?php if ($category_name) { ?>
-            <span class="bo_v_cate"><?php echo $view['ca_name']; // 분류 출력 끝 ?></span> 
+            <span class="bo_v_cate"><?php echo $view['ca_name']; // 분류 출력 끝 ?></span>
             <?php } ?>
             <span class="bo_v_tit">
             <?php
@@ -46,13 +43,13 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 	        	<?php if($update_href || $delete_href || $copy_href || $move_href || $search_href) { ?>
 	        	<li>
 	        		<button type="button" class="btn_more_opt is_view_btn btn_b01 btn"><i class="fa fa-ellipsis-v" aria-hidden="true"></i><span class="sound_only">게시판 리스트 옵션</span></button>
-		        	<ul class="more_opt is_view_btn"> 
+		        	<ul class="more_opt is_view_btn">
 			            <?php if ($update_href) { ?><li><a href="<?php echo $update_href ?>">수정<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li><?php } ?>
 			            <?php if ($delete_href) { ?><li><a href="<?php echo $delete_href ?>" onclick="del(this.href); return false;">삭제<i class="fa fa-trash-o" aria-hidden="true"></i></a></li><?php } ?>
 			            <?php if ($copy_href) { ?><li><a href="<?php echo $copy_href ?>" onclick="board_move(this.href); return false;">복사<i class="fa fa-files-o" aria-hidden="true"></i></a></li><?php } ?>
 			            <?php if ($move_href) { ?><li><a href="<?php echo $move_href ?>" onclick="board_move(this.href); return false;">이동<i class="fa fa-arrows" aria-hidden="true"></i></a></li><?php } ?>
 			            <?php if ($search_href) { ?><li><a href="<?php echo $search_href ?>">검색<i class="fa fa-search" aria-hidden="true"></i></a></li><?php } ?>
-			        </ul> 
+			        </ul>
 	        	</li>
 	        	<?php } ?>
 	        </ul>
@@ -82,20 +79,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
     <section id="bo_v_atc">
         <h2 id="bo_v_atc_title">본문</h2>
-        <?php
-        // 파일 출력
-        $v_img_count = count($view['file']);
-        if($v_img_count) {
-            echo "<div id=\"bo_v_img\">\n";
-
-            for ($i=0; $i<=count($view['file']); $i++) {
-                echo get_file_thumbnail($view['file'][$i]);
-            }
-
-            echo "</div>\n";
-        }
-         ?>
-
         <!-- 본문 내용 시작 { -->
         <div id="bo_v_con"><?php echo ($view['wr_content']); ?></div>
         <?php //echo $view['rich_content']; // {이미지:0} 과 같은 코드를 사용할 경우 ?>
@@ -106,7 +89,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     $cnt = 0;
     if ($view['file']['count']) {
         for ($i=0; $i<count($view['file']); $i++) {
-            if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'] && !$view['file'][$i]['view'])
+            if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'])
                 $cnt++;
         }
     }
@@ -120,7 +103,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         <?php
         // 가변 파일
         for ($i=0; $i<count($view['file']); $i++) {
-            if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'] && !$view['file'][$i]['view']) {
+            if (isset($view['file'][$i]['source']) && $view['file'][$i]['source']) {
          ?>
             <li>
                	<i class="fa fa-folder-open" aria-hidden="true"></i>
@@ -168,7 +151,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     </section>
     <!-- } 관련링크 끝 -->
     <?php } ?>
-    
+
     <?php if ($prev_href || $next_href) { ?>
     <ul class="bo_v_nb">
         <?php if ($prev_href) { ?><li class="btn_prv"><span class="nb_tit"><i class="fa fa-chevron-up" aria-hidden="true"></i> 이전글</span><a href="<?php echo $prev_href ?>"><?php echo $prev_wr_subject;?></a> <span class="nb_date"><?php echo str_replace('-', '.', substr($prev_wr_date, '2', '8')); ?></span></li><?php } ?>
@@ -205,17 +188,5 @@ function board_move(href)
 {
     window.open(href, "boardmove", "left=50, top=50, width=500, height=550, scrollbars=1");
 }
-</script>
-
-<script>
-$(function() {
-    $("a.view_image").click(function() {
-        window.open(this.href, "large_image", "location=yes,links=no,toolbar=no,top=10,left=10,width=10,height=10,resizable=yes,scrollbars=no,status=no");
-        return false;
-    });
-
-    // 이미지 리사이즈
-    $("#bo_v_atc").viewimageresize();
-});
 </script>
 <!-- } 게시글 읽기 끝 -->

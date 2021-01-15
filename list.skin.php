@@ -48,6 +48,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             <li>
             	<button type="button" class="btn_bo_sch btn_b01 btn" title="게시판 검색"><i class="fa fa-search" aria-hidden="true"></i><span class="sound_only">게시판 검색</span></button>
             </li>
+            <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn_b01 btn" title="폼메일 작성"><i class="fa fa-pencil" aria-hidden="true"></i><span class="sound_only">폼메일 작성</span></a></li><?php } ?>
         	<?php if ($is_admin == 'super' || $is_auth) {  ?>
         	<li>
         		<button type="button" class="btn_more_opt is_list_btn btn_b01 btn" title="게시판 리스트 옵션"><i class="fa fa-ellipsis-v" aria-hidden="true"></i><span class="sound_only">게시판 리스트 옵션</span></button>

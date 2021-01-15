@@ -5,9 +5,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 // 제목 자동생성
 $subject = date("Y-m-d H:i:s")." 문의";
 
-//*
+/*
 $name = '홍길동';
-$email = 'kevinpark@webace.co.kr';
+$email = 'sample@sample.com';
 $wr_1 = '개발팀';
 $wr_2 = '팀장';
 $wr_content = '안녕하세요';
@@ -41,6 +41,9 @@ $wr_content = '안녕하세요';
     <input type="hidden" name="contents_info[]" value="wr_content|문의내용">
 
     <section id="formmail-write">
+        <?php if($is_admin) {?>
+        <a href="<?php echo get_pretty_url($bo_table)?>" class="check-list">문의내역 확인</a>
+        <?php }?>
         <div class="form-body">
 
             <div class="form-group col4">

@@ -99,10 +99,12 @@ $wr_content = '안녕하세요';
                 </div>
             <?php } ?>
 
+            <?php if ($is_use_captcha) { //자동등록방지  ?>
             <div class="form-group">
                 <label for="">자동등록<br/>방지</label>
                 <div><?php echo $captcha_html?></div>
             </div>
+            <?php } ?>
         </div>
 
         <div class="form-footer">

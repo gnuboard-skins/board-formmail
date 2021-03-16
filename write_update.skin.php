@@ -87,5 +87,5 @@ if(array_key_exists('gmail', $bo) || array_key_exists('naver', $bo)) {
     }
 }
 
-alert("문의를 성공적으로 전송하였습니다.\\n빠른시일내에 답변 드리겠습니다. ","/");
+alert("문의를 성공적으로 전송하였습니다.\\n빠른 시일내에 답변 드리겠습니다. ","/");
 exit;

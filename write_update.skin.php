@@ -1,15 +1,23 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
-$bo = [];
+/**
+ * 관리자 설정값 불러오기
+ * - 발송메일: 네이버|구글
+ * - 받는사람: receiver@sample.com|받는사람이름
+ * - 보내는사람: sender@sample.com|보내는사람이름
+ * - 인증: 아이디|비밀번호
+ */
+$cfg = [];
 for($idx=1; $idx<=10; $idx++) {
     $key = 'bo_'.$idx.'_subj';
-    if($board[$key]=='') {
-        $bo['bo_'.$idx] = $board['bo_'.$idx];
-    } else {
-        $bo[$board[$key]] = $board['bo_'.$idx];
-    }
+    if($board[$key]) $cfg[$board[$key]] = $board['bo_'.$idx];
 }
+
+$smtp_servers = [
+    '네이버'=>[],
+    '구글'=>[]
+];
 
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -19,13 +27,37 @@ include('PHPMailer/Exception.php');
 include('PHPMailer/SMTP.php');
 include('PHPMailer/PHPMailer.php');
 
-// PHPMailer 선언
-$mail = new PHPMailer(true);
+$msg = "문의를 성공적으로 전송하였습니다.\\n빠른 시일내에 답변 드리겠습니다. ";
+$url = G5_BBS_URL. "/write.php?bo_table={$bo_table}";
 
-// 디버그 모드(production 환경에서는 주석 처리한다.)
-// $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+try {
+    // 발송메일 정보가 없으면 메일 발송은 안함
+    if(!$cfg['발송메일']) {
+        throw new \Exception("문의를 성공적으로 전송하였습니다.\\n빠른 시일내에 답변 드리겠습니다. ");
+    }
 
-if(array_key_exists('gmail', $bo) || array_key_exists('naver', $bo)) {
+    // 발송메일 서버정보 확인
+    if(!in_array($cfg['발송메일'], array_keys($smtp_servers))) {
+        throw new \Exception("관리자 설정에서 발송메일 서버를 확인해 주세요. 지원서버[네이버|구글]");
+    }
+
+    // 받는사람 정보 확인
+    list($receiver, $receiver_name) = explode('|', $cfg['받는사람']);
+    if(!$receiver || !$receiver_name) throw new \Exception("관리자 설정에서 받는사람 정보를 확인해 주세요.");
+
+    // 보내는사람 정보확인
+    list($sender, $sender_name) = explode('|', $cfg['보내는사람']);
+    if(!$sender || !$sender_name) throw new \Exception("관리자 설정에서 보내는사람 정보를 확인해 주세요.");
+
+    // 인증정보 정보확인
+    list($username, $password) = explode('|', $cfg['인증정보']);
+    if(!$username || !$password) throw new \Exception("관리자 설정에서 인증정보를 확인해 주세요.");
+
+    // PHPMailer 선언
+    $mail = new PHPMailer(true);
+    // 디버그 모드(production 환경에서는 주석 처리한다.)
+    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+
     // SMTP 서버 세팅
     $mail->isSMTP();
     $mail->SMTPAuth = true;
@@ -33,7 +65,9 @@ if(array_key_exists('gmail', $bo) || array_key_exists('naver', $bo)) {
     $mail->SMTPSecure = "ssl";
     $mail->CharSet = 'utf-8';
     $mail->Encoding = "base64";
-    $receiver = explode(',',$bo['받는사람']);
+
+    if($cfg['발송메일']=='네이버') $mail->Host = "smtp.naver.com";
+    else if($cfg['발송메일']=='구글') $mail->Host = "smtp.gmail.com";
 
     // 제목
     $mail->Subject = "{$_POST['wr_name']}님으로부터 문의메일이 도착했습니다.";
@@ -54,38 +88,23 @@ if(array_key_exists('gmail', $bo) || array_key_exists('naver', $bo)) {
         }
     }
 
-    // 받는 사람
-    if(!array_key_exists('받는사람', $bo))
-        alert("관리자 페이지에서 받는 사람을 설정해야 합니다.");
+    $mail->Username = $username;
+    $mail->Password = $password;
+    $mail->setFrom($sender, $sender_name);
+    $mail->AddAddress($receiver, $receiver_name);
+    $mail->Send();
 
-    $username = '';
-    $password = '';
-    $sender = '';
-    // gmail로 보내기
-    if(array_key_exists('gmail', $bo)) {
-        $mail->Host = "smtp.gmail.com";
-        list($username, $password, $sender) = explode(',',$bo['gmail']);
-    }
-    // naver로 보내기
-    else if(array_key_exists('naver', $bo)) {
-        $mail->Host = "smtp.naver.com";
-        list($username, $password, $sender) = explode(',',$bo['naver']);
-    }
-
-    // 필수입력 체크
-    if(!$username || !$password || !$sender)
-        alert("메일 발송을 위해서는 gmail|naver 필드에 쉼표(,)로 구분된 메일발송서버 email|password|발송자명 을 입력해야 합니다.");
-
-    try {
-        $mail->Username = $username;
-        $mail->Password = $password;
-        $mail->setFrom($username, $sender);
-        $mail->AddAddress($receiver[0], $receiver[1]);
+    // 문의내용 접수 확인 발송
+    if($_POST['wr_email'] && $_POST['wr_name']) {
+        $mail->Subject = "[{$sender_name}] {$_POST['wr_name']}님 문의내용이 접수 되었습니다.";
+        $mail->clearAddresses();
+        $mail->AddAddress($_POST['wr_email'], $_POST['wr_name']);
         $mail->Send();
-    } catch (Exception $e) {
-        echo $e->getMessage();
     }
+
+} catch (\Exception $e) {
+    $msg = $e->getMessage();
 }
 
-alert("문의를 성공적으로 전송하였습니다.\\n빠른 시일내에 답변 드리겠습니다. ","/");
+alert($msg,$url);
 exit;

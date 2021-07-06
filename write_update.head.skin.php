@@ -11,17 +11,26 @@ if(!is_array($_POST['contents_info'])) {
     }
 }
 
-
-$new_contents = '<table border="1" cellspacing="0" cellpadding="10" style="width:500px;"><thead><tr><th scope="col" colspan="2" style="background-color: rgb(187, 187, 187); border-color: rgb(187, 187, 187);">문의내용</th></tr></thead><tbody>';
+$contents = "";
 foreach ($contents_info as $k=>$v) {
-    $new_contents.='<tr>
-<th style="background-color: rgb(221, 221, 221); border-color: rgb(187, 187, 187);">'.$v.'</th>
-<td style="border-color: rgb(187, 187, 187);">'.$_POST[$k].'</td>
+    $contents.='<tr>
+<th style="background-color: rgb(245, 245, 247); border: 1px solid rgb(226, 226, 226); padding:10px">'.$v.'</th>
+<td style="border: 1px solid rgb(226, 226, 226); padding:10px">'.$_POST[$k].'</td>
 </tr>';
 }
-$new_contents.= '</tbody></table>';
 
-$wr_content = $new_contents;
-
-
-
+$wr_content = '<div style="width:520px; margin:0 auto;">
+<h1 style="padding:15px 0; text-align: center"><img src="cid:logo" alt="logo"/></h1>
+<p>홈페이지로 부터 문의가 접수되었습니다.</p>
+<p>본 문의 내용은 홈페이지에서도 확인 하실 수 있습니다.</p>
+<table style="border-collapse: collapse; width:100%;">
+<thead><tr>
+<th scope="col" colspan="2" style="background-color: rgb(245, 245, 247); padding:10px; border: 1px solid rgb(226, 226, 226); border-top:2px solid rgb(105, 151, 206)">문의내용</th>
+</tr></thead>
+<tbody>'.$contents.'</tbody>
+</table>
+<div style="color:rgb(88,88,88); font-size:12px">
+<p>ㆍ 본 메일은 '.$config['cf_title'].'에서 이메일 서비스 수신동의 하에 발송된 메일입니다.</p>
+<p>ㆍ (문의) '.$config['cf_title'].'(https://gnuskins.w3p.kr/) / E-mail: help@daium.com</p>
+</div>
+</div>';

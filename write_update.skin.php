@@ -73,6 +73,9 @@ try {
     $mail->Subject = "{$_POST['wr_name']}님으로부터 문의메일이 도착했습니다.";
     // 본문 (HTML 전용)
     $mail->Body = $wr_content;
+
+    // 로고 이미지 추가
+    $mail->addEmbeddedImage($board_skin_path.'/img/logo-formmail.png', 'logo');
     // 본문 (non-HTML 전용)
     $mail->AltBody = strip_tags($wr_content);
 

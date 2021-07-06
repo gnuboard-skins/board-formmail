@@ -1,6 +1,12 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+$cfg = [];
+for($idx=1; $idx<=10; $idx++) {
+    $key = 'bo_'.$idx.'_subj';
+    if($board[$key]) $cfg[$board[$key]] = $board['bo_'.$idx];
+}
+
 $contents_info = [];
 if(!is_array($_POST['contents_info'])) {
     $contents_info['wr_content'] = '문의내용';
@@ -31,7 +37,8 @@ $content_sender = '
 <p>본 문의 내용은 홈페이지에서도 확인 하실 수 있습니다.</p>';
 $content_requester = '
 <p>문의가 정상적으로 접수되었습니다.</p>
-<p>접수된 문의 내용은 아래와 같습니다.</p>';
+<p>접수된 문의 내용은 아래와 같습니다.</p>
+<p>영업일 기준 2~3일 내에 전화 또는 메일로 답변 드리도록 하겠습니다.</p>';
 
 $footer = '<table style="border-collapse: collapse; width:100%;">
 <thead><tr>
@@ -40,10 +47,10 @@ $footer = '<table style="border-collapse: collapse; width:100%;">
 <tbody>'.$contents.'</tbody>
 </table>
 <div style="color:rgb(88,88,88); font-size:12px">
-<p>ㆍ 본 메일은 '.$config['cf_title'].'에서 이메일 서비스 수신동의 하에 발송된 메일입니다.</p>
-<p>ㆍ (문의) '.$config['cf_title'].'(https://gnuskins.w3p.kr/) / E-mail: help@daium.com</p>
+<p>ㆍ 본 메일은 '.$cfg['타이틀'].'에서 이메일 서비스 수신동의 하에 발송된 메일입니다.</p>
+<p>ㆍ (문의) '.$cfg['타이틀'].'('.$cfg['홈페이지'].') / E-mail: '.$cfg['이메일'].'</p>
 </div>
 </div>';
 
-$content_sender = $header.$content_sender.$footer;
+$wr_content = $content_sender = $header.$content_sender.$footer;
 $content_requester = $header.$content_requester.$footer;

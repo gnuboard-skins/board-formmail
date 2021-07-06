@@ -42,8 +42,16 @@ try {
     }
 
     // 받는사람 정보 확인
-    list($receiver, $receiver_name) = explode('|', $cfg['받는사람']);
-    if(!$receiver || !$receiver_name) throw new \Exception("관리자 설정에서 받는사람 정보를 확인해 주세요.");
+    // 2021.07.07 받는 사람을 여러명 지정 가능하도록 함
+    $receivers = [];
+    foreach(explode(',',$cfg['받는사람']) as $receiver) {
+        list($_email, $_name) = explode('|', $receiver);
+        if(!$_email || !$_name) throw new \Exception("관리자 설정에서 받는사람 정보를 확인해 주세요.");
+        $receivers[] = [
+            'email'=>$_email,
+            'name'=>$_name
+        ];
+    }
 
     // 보내는사람 정보확인
     list($sender, $sender_name) = explode('|', $cfg['보내는사람']);
@@ -95,7 +103,9 @@ try {
     $mail->Username = $username;
     $mail->Password = $password;
     $mail->setFrom($sender, $sender_name);
-    $mail->AddAddress($receiver, $receiver_name);
+    foreach($receivers as $receiver) {
+        $mail->AddAddress($receiver['email'], $receiver['name']);
+    }
     $mail->Send();
 
     // 문의내용 접수 확인 발송

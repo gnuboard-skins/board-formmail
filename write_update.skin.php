@@ -15,8 +15,8 @@ for($idx=1; $idx<=10; $idx++) {
 }
 
 $smtp_servers = [
-    '네이버'=>[],
-    '구글'=>[]
+    '네이버'=>'smtp.naver.com',
+    '구글'=>'smtp.gmail.com'
 ];
 
 use PHPMailer\PHPMailer\Exception;
@@ -65,19 +65,20 @@ try {
     $mail->SMTPSecure = "ssl";
     $mail->CharSet = 'utf-8';
     $mail->Encoding = "base64";
+    $mail->Host = $smtp_servers[$cfg['발송메일']];
 
-    if($cfg['발송메일']=='네이버') $mail->Host = "smtp.naver.com";
-    else if($cfg['발송메일']=='구글') $mail->Host = "smtp.gmail.com";
+    //if($cfg['발송메일']=='네이버')
+    //else if($cfg['발송메일']=='구글') $mail->Host = "smtp.gmail.com";
 
     // 제목
     $mail->Subject = "{$_POST['wr_name']}님으로부터 문의메일이 도착했습니다.";
     // 본문 (HTML 전용)
-    $mail->Body = $wr_content;
+    $mail->Body = $content_sender;
 
     // 로고 이미지 추가
     $mail->addEmbeddedImage($board_skin_path.'/img/logo-formmail.png', 'logo');
     // 본문 (non-HTML 전용)
-    $mail->AltBody = strip_tags($wr_content);
+    $mail->AltBody = strip_tags($content_sender);
 
     // 본문 html 타입 설정
     $mail->isHTML(true);
@@ -99,6 +100,7 @@ try {
 
     // 문의내용 접수 확인 발송
     if($_POST['wr_email'] && $_POST['wr_name']) {
+        $mail->Body = $content_requester;
         $mail->Subject = "[{$sender_name}] {$_POST['wr_name']}님 문의내용이 접수 되었습니다.";
         $mail->clearAddresses();
         $mail->AddAddress($_POST['wr_email'], $_POST['wr_name']);

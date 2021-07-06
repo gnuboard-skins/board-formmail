@@ -11,6 +11,10 @@ if(!is_array($_POST['contents_info'])) {
     }
 }
 
+/**
+ * 홈페이지 관리자의 메일 내용과
+ * 문의 요청자의 메일 내용을 다르게 생성함
+ */
 $contents = "";
 foreach ($contents_info as $k=>$v) {
     $contents.='<tr>
@@ -19,11 +23,17 @@ foreach ($contents_info as $k=>$v) {
 </tr>';
 }
 
-$wr_content = '<div style="width:520px; margin:0 auto;">
-<h1 style="padding:15px 0; text-align: center"><img src="cid:logo" alt="logo"/></h1>
+$header = '<div style="width:520px; margin:0 auto;">
+<h1 style="padding:15px 0; text-align: center"><img src="cid:logo" alt="logo"/></h1>';
+
+$content_sender = '
 <p>홈페이지로 부터 문의가 접수되었습니다.</p>
-<p>본 문의 내용은 홈페이지에서도 확인 하실 수 있습니다.</p>
-<table style="border-collapse: collapse; width:100%;">
+<p>본 문의 내용은 홈페이지에서도 확인 하실 수 있습니다.</p>';
+$content_requester = '
+<p>문의가 정상적으로 접수되었습니다.</p>
+<p>접수된 문의 내용은 아래와 같습니다.</p>';
+
+$footer = '<table style="border-collapse: collapse; width:100%;">
 <thead><tr>
 <th scope="col" colspan="2" style="background-color: rgb(245, 245, 247); padding:10px; border: 1px solid rgb(226, 226, 226); border-top:2px solid rgb(105, 151, 206)">문의내용</th>
 </tr></thead>
@@ -34,3 +44,6 @@ $wr_content = '<div style="width:520px; margin:0 auto;">
 <p>ㆍ (문의) '.$config['cf_title'].'(https://gnuskins.w3p.kr/) / E-mail: help@daium.com</p>
 </div>
 </div>';
+
+$content_sender = $header.$content_sender.$footer;
+$content_requester = $header.$content_requester.$footer;

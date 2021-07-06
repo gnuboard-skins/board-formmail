@@ -227,3 +227,5 @@
 #formmail-write .form-footer { padding-top:50px; text-align: center; border-top:1px solid #e0dedf }
 #formmail-write .btn_submit { padding:10px 20px; font-size:1.2em; height:auto}
 #formmail-write .check-list { position:absolute; right:0; top:-30px }
+#formmail-write .privacy-of-use { padding:15px; border-top:1px solid #e0dedf; border-bottom:1px solid #e0dedf; height:150px; overflow-y:scroll }
+#formmail-write .privacy-of-use-check { text-align: right; padding:10px; color:#8a8a8a; font-size:14px; }

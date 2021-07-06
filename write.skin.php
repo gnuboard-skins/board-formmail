@@ -38,7 +38,7 @@ $wr_content = '안녕하세요';
     -->
     <input type="hidden" name="contents_info[]" value="wr_name|성함">
     <input type="hidden" name="contents_info[]" value="wr_email|이메일">
-    <input type="hidden" name="contents_info[]" value="wr_1|부서">
+    <input type="hidden" name="contents_info[]" value="wr_1|연락처">
     <input type="hidden" name="contents_info[]" value="wr_2|직책">
     <input type="hidden" name="contents_info[]" value="ca_name|문의종류">
     <input type="hidden" name="contents_info[]" value="wr_content|문의내용">
@@ -61,7 +61,7 @@ $wr_content = '안녕하세요';
             </div>
 
             <div class="form-group col4">
-                <label for="wr_1">부서</label>
+                <label for="wr_1">연락처</label>
                 <div>
                     <input type="text" name="wr_1" value="<?php echo $wr_1 ?>" id="wr_1" required class="form-control" size="10" maxlength="20">
                 </div>
@@ -113,6 +113,13 @@ $wr_content = '안녕하세요';
                 <div><?php echo $captcha_html?></div>
             </div>
             <?php } ?>
+        </div>
+
+        <div class="privacy-of-use">
+            <?php echo file_get_contents($board_skin_path.'/privacy.html')?>
+        </div>
+        <div class="privacy-of-use-check">
+            <label><input type="checkbox" class="required" required/> 개인정보 처리방침에 동의합니다.</label>
         </div>
 
         <div class="form-footer">

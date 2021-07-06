@@ -5,6 +5,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 // 제목 자동생성
 $subject = date("Y-m-d H:i:s")." 문의";
 
+// 문의분류 재생성 [공지]제거
+$category_list = explode('|',$board['bo_category_list']);
+
 /*
 $name = '홍길동';
 $email = 'sample@sample.com';
@@ -49,11 +52,11 @@ $wr_content = '안녕하세요';
             <div class="form-group col4">
                 <label for="wr_name">성함</label>
                 <div>
-                    <input type="text" name="wr_name" value="<?php echo $name ?>" id="wr_name" required class="form-control required" size="8" maxlength="20">
+                    <input type="text" name="wr_name" value="<?php echo $member['mb_name']?>" id="wr_name" required class="form-control required" size="8" maxlength="20">
                 </div>
                 <label for="wr_email">이메일</label>
                 <div>
-                    <input type="text" name="wr_email" value="<?php echo $email ?>" id="wr_email" class="form-control email required" size="50" maxlength="100">
+                    <input type="text" name="wr_email" value="<?php echo $member['mb_email']?>" id="wr_email" class="form-control email required" size="50" maxlength="100">
                 </div>
             </div>
 
@@ -74,7 +77,9 @@ $wr_content = '안녕하세요';
                     <div>
                         <select name="ca_name" id="ca_name" required class="form-control required">
                             <option value="">선택하세요</option>
-                            <?php echo $category_option ?>
+                            <?php foreach($category_list as $v) {?>
+                                <option value="<?php echo $v?>"><?php echo $v?></option>
+                            <?php }?>
                         </select>
                     </div>
                 </div>

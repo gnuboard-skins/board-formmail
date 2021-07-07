@@ -8,6 +8,20 @@ $subject = date("Y-m-d H:i:s")." 문의";
 // 문의분류 재생성 [공지]제거
 $category_list = explode('|',$board['bo_category_list']);
 
+// 개인정보 처리방침 HTML 처리
+$cfg = [];
+for($idx=1; $idx<=10; $idx++) {
+    $key = 'bo_'.$idx.'_subj';
+    if($board[$key]) $cfg[$board[$key]] = $board['bo_'.$idx];
+}
+$privacy_html = '';
+if($cfg['개인정보처리방침']) {
+    $privacy_html = file_get_contents($board_skin_path . '/privacy.html');
+    foreach (explode('|',$cfg['개인정보처리방침']) as $idx=>$v) {
+        $privacy_html = str_replace("{{{$idx}}}", $v, $privacy_html);
+    }
+}
+
 /*
 $name = '홍길동';
 $email = 'sample@sample.com';
@@ -116,7 +130,7 @@ $wr_content = '안녕하세요';
         </div>
 
         <div class="privacy-of-use">
-            <?php echo file_get_contents($board_skin_path.'/privacy.html')?>
+            <?php echo $privacy_html?>
         </div>
         <div class="privacy-of-use-check">
             <label><input type="checkbox" class="required" required/> 개인정보 처리방침에 동의합니다.</label>

@@ -227,5 +227,17 @@
 #formmail-write .form-footer { padding-top:50px; text-align: center; border-top:1px solid #e0dedf }
 #formmail-write .btn_submit { padding:10px 20px; font-size:1.2em; height:auto}
 #formmail-write .check-list { position:absolute; right:0; top:-30px }
-#formmail-write .privacy-of-use { padding:15px; border-top:1px solid #e0dedf; border-bottom:1px solid #e0dedf; height:150px; overflow-y:scroll }
+#formmail-write .privacy-of-use {font-size:14px;padding:15px; border-top:1px solid #e0dedf; border-bottom:1px solid #e0dedf; height:150px; overflow-y:scroll }
+#formmail-write .privacy-of-use .cont {margin-bottom:15px;}
+#formmail-write .privacy-of-use h4 {margin-bottom: 5px}
+#formmail-write .privacy-of-use dl { padding:10px 0}
+#formmail-write .privacy-of-use dl dt { font-weight: 600}
+#formmail-write .privacy-of-use dl dd { margin-left: 20px}
+#formmail-write .privacy-of-use ul { margin-left:20px }
+#formmail-write .privacy-of-use ul li { margin-top:5px }
+#formmail-write .privacy-of-use table { width:100%; border-collapse: collapse }
+#formmail-write .privacy-of-use table th,
+#formmail-write .privacy-of-use table td { border:1px solid rgb(226,226,226); padding:5px }
+#formmail-write .privacy-of-use table th { background:rgb(245,245,247) }
+
 #formmail-write .privacy-of-use-check { text-align: right; padding:10px; color:#8a8a8a; font-size:14px; }

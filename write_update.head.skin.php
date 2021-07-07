@@ -1,6 +1,11 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// 캡챠 무조건 검사
+if (!chk_captcha()) {
+    alert('자동등록방지 숫자가 틀렸습니다.');
+}
+
 $cfg = [];
 for($idx=1; $idx<=10; $idx++) {
     $key = 'bo_'.$idx.'_subj';

@@ -22,6 +22,11 @@ if($cfg['개인정보처리방침']) {
     }
 }
 
+// 캡챠 무조건 사용하도록 하기
+$is_use_captcha = true;
+$captcha_html = captcha_html();
+$captcha_js   = chk_captcha_js();
+
 /*
 $name = '홍길동';
 $email = 'sample@sample.com';

@@ -6,7 +6,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 $subject = date("Y-m-d H:i:s")." 문의";
 
 // 문의분류 재생성 [공지]제거
-$category_list = explode('|',$board['bo_category_list']);
+$is_category = false;
+if ($board['bo_use_category']) {
+    $category_list = explode('|',$board['bo_category_list']);
+    $is_category = true;
+}
 
 // 개인정보 처리방침 HTML 처리
 $cfg = [];

@@ -28,7 +28,7 @@ include('PHPMailer/SMTP.php');
 include('PHPMailer/PHPMailer.php');
 
 $msg = "문의를 성공적으로 전송하였습니다.\\n빠른 시일내에 답변 드리겠습니다. ";
-$url = G5_BBS_URL. "/write.php?bo_table={$bo_table}";
+$url = $_POST['ret_url']?$_POST['ret_url']:G5_BBS_URL. "/write.php?bo_table={$bo_table}";
 
 try {
     // 발송메일 정보가 없으면 메일 발송은 안함

@@ -13,7 +13,7 @@ if ($board['bo_use_category']) {
 }
 
 // 개인정보 처리방침 HTML 처리
-$cfg = [];
+$cfg = array();
 for($idx=1; $idx<=10; $idx++) {
     $key = 'bo_'.$idx.'_subj';
     if($board[$key]) $cfg[$board[$key]] = $board['bo_'.$idx];

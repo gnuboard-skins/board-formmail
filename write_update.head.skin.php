@@ -6,13 +6,13 @@ if (!chk_captcha()) {
     alert('자동등록방지 숫자가 틀렸습니다.');
 }
 
-$cfg = [];
+$cfg = array();
 for($idx=1; $idx<=10; $idx++) {
     $key = 'bo_'.$idx.'_subj';
     if($board[$key]) $cfg[$board[$key]] = $board['bo_'.$idx];
 }
 
-$contents_info = [];
+$contents_info = array();
 if(!is_array($_POST['contents_info'])) {
     $contents_info['wr_content'] = '문의내용';
 } else {

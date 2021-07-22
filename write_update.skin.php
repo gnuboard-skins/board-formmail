@@ -8,7 +8,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
  * - 보내는사람: sender@sample.com|보내는사람이름
  * - 인증: 아이디|비밀번호
  */
-$cfg = [];
+$cfg = array();
 for($idx=1; $idx<=10; $idx++) {
     $key = 'bo_'.$idx.'_subj';
     if($board[$key]) $cfg[$board[$key]] = $board['bo_'.$idx];
@@ -43,7 +43,7 @@ try {
 
     // 받는사람 정보 확인
     // 2021.07.07 받는 사람을 여러명 지정 가능하도록 함
-    $receivers = [];
+    $receivers = array();
     foreach(explode(',',$cfg['받는사람']) as $receiver) {
         list($_email, $_name) = explode('|', $receiver);
         if(!$_email || !$_name) throw new \Exception("관리자 설정에서 받는사람 정보를 확인해 주세요.");
